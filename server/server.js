@@ -16,6 +16,31 @@ console.log(publicPath);
 io.on('connection', (socket) => {
     console.log('new user connection');
 
+    // socket.emit('newEmail', {
+    //     from: "abc@abc.com",
+    //     text: 'hello this is from abc',
+    //     createAt: 123
+
+    // });
+
+    socket.emit('newMessage', {
+        from: 'someone',
+        text: 'Hey!',
+        createdAt: 456
+    })
+
+    socket.on('createMessage', (newMessage) => {
+        console.log('createMessage', newMessage);
+    });
+
+    socket.on('createEmail', (newEmail) => {
+        console.log('createEmail', newEmail);
+    });
+
+    socket.on('createMessage', (newMessage) => {
+        console.log('new message from client', newMessage);
+    });
+
     socket.on('disconnect', () => {
         console.log('disconnected from client');
     })
