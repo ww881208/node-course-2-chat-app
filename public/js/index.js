@@ -6,10 +6,10 @@ socket.on('connect', function () { //client side js does not use lamda expressio
     //     to: 'jen@exmmple.com',
     //     text: 'Hey, this is from client'
     // });
-    socket.emit('createMessage', {
-        from: 'who',
-        text: 'Message created by who'
-    })
+    // socket.emit('createMessage', {
+    //     from: 'who',
+    //     text: 'Message created by who'
+    // })
 });
 
 socket.on('disconnect', function () {
