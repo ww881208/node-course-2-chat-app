@@ -34,12 +34,17 @@ io.on('connection', (socket) => {
         console.log('createEmail', newEmail);
     });
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log('new message from client', message);
 
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to chat app.'));
+        socket.emit('newMessage', generateMessage(message.from, message.text));
 
         socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'));
+
+        callback('this is from the server.');
+
+
         // io.emit('newMessage', {
         //     from: message.from,
         //     text: message.text,
