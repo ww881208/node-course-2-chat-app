@@ -1,6 +1,24 @@
 var socket = io(); //initiate, create a connection
 //var jQuery = jQuery();
+function scrollToBottom() {
 
+    //selector
+    var messages = jQuery('#messages');
+    var newMessage = messages.children('li:last-child');
+
+    //vars
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    
+
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+        messages.scrollTop(scrollHeight);
+    }
+
+}
 socket.on('connect', function () { //client side js does not use lamda expression
     console.log('connected to server');
 
@@ -31,6 +49,7 @@ socket.on('newMessage', function(message){
         createdAt: formattedTime
     });
     jQuery("#messages").append(html);
+    scrollToBottom();
     // var formattedTime = moment(message.createdAt).format('h:mm a');
     // console.log('new message from server',message);
     // var li = jQuery('<li></li>');
@@ -50,6 +69,7 @@ socket.on('newLocationMessage', function(message){
     });
 
     jQuery("#messages").append(locationHtml);
+    scrollToBottom();
 
     // var li = jQuery('<li></li>');
     // var a = jQuery('<a target="_blank">My Current Location</a>');
