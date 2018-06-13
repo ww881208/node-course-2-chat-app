@@ -139,8 +139,9 @@ locationButton.on('click', function(){
             latitude: position.coords.latitude
         });
 
-    }, function(){
+    }, function(err){
         locationButton.removeAttr('disabled').text("Send Location");
+        console.log('cannot get current geo location', err);
         alert('Cannot get current geo location.')
     });
 });

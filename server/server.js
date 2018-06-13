@@ -19,12 +19,25 @@ app.use(express.static('public'));
 console.log(publicPath);
 
 io.on('connection', (socket) => {
-    console.log('new user connection');
+    console.log('new user connection', users.users.length);
 
     socket.on('join', (params, callback) => {
+
         if(!isRealString(params.name) || !isRealString(params.room)){
             return callback('Name and room name are required.');
         }
+
+        var roomUsers = users.getUserList(params.room);
+        console.log(roomUsers);
+        if(roomUsers && roomUsers.length> 0){
+        
+            var existingName= roomUsers.filter(name => name === params.name);
+            console.log('exiting: ', existingName);
+            if(existingName){
+                return callback ('The name is already used. choose a different one.');
+            }
+        }
+    
 
         socket.join(params.room); //join the room
         users.removeUser(socket.id); //ensure that the user is removed from other rooms.
